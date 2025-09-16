@@ -114,170 +114,112 @@ string toLowerCase(string s) {
   * using the chrono library for internal storage and supporting string conversion
   * in standard ISO-like formats. It features cross-platform thread-safe implementation 
 */
+
 class DateTime {
 private:
-	chrono::system_clock::time_point m_time;
+	std::chrono::system_clock::time_point m_time;
 
 public:
 	/**
-	  * @brief Default constructor.
-	  * @details Initializes the DateTime object to current system time.
-	*/
-	DateTime() : m_time(chrono::system_clock::now()) {}
+	 * @brief Default constructor.
+	 * @details Initializes the DateTime object to current system time.
+	 */
+	DateTime();
 
 	/**
-	  * @brief Constructor for formatted string. 
-	  * @param dateTimeString String in "YYYY-MM-DD HH:MM:SS" format.
-	  * @throw invalid_argument If the input string format is incorrect.
-      * @details Parses a standardized date-time string to initialize the object.
-	*/
-	DateTime(const string& dateTimeString) {
-		istringstream iss(dateTimeString);
-		tm tmStruct = {};
-		iss >> get_time(&tmStruct, "%Y-%m-%d %H:%M:%S");
-		if (iss.fail()) {
-			throw invalid_argument("Invalid date-time format. Expected: YYYY-MM-DD HH:MM:SS");
-		}
-		m_time = chrono::system_clock::from_time_t(mktime(&tmStruct));
-	}
-	/**
-	* @brief Add days to the DateTime.
-	* @param days Number of days to add.
-	* @return New DateTime object with the added days.
-	*/
-	DateTime operator+(int days) const {
-		DateTime result = *this;
-		result.m_time += chrono::hours(24 * days);
-		return result;
-	}
-	bool operator<=(const DateTime& rhs) const {
-		return m_time <= rhs.m_time;
-	}
-	bool operator>=(const DateTime& rhs) const {
-		return m_time >= rhs.m_time;
-	}
-	bool operator>(const DateTime& rhs) const {
-		return m_time > rhs.m_time;
-	}
-	bool operator<(const DateTime& rhs) const {
-		return m_time < rhs.m_time;
-	}
-	/**
-	  * @brief Sets the time from a chrono::system_clock::time_point.
-	  * @param newTime The new time point to set.
-	  * @note This is a low-level interface for direct time_point manipulation.
-	*/
-	void setDateTime(const chrono::system_clock::time_point& new_time) {
-		m_time = new_time;
-	}
+	 * @brief Constructor from formatted string.
+	 * @param dateTimeString String in "YYYY-MM-DD HH:MM:SS" format.
+	 * @throw std::invalid_argument If the input string format is incorrect.
+	 */
+	DateTime(const std::string& dateTimeString);
 
 	/**
-	  * @brief Sets the time by parsing a formatted string.
-	  * @param dateTimeString String in "YYYY-MM-DD HH:MM:SS" format.
-	  * @throw invalid_argument If the input string format is incorrect.
-	*/
-	void setDateTime(const string& date_time_string) {
-		istringstream iss(date_time_string);
-		tm tmStruct = {};
-		iss >> get_time(&tmStruct, "%Y-%m-%d %H:%M:%S");
-		if (iss.fail()) {
-			throw invalid_argument("Invalid date-time format. Expected: YYYY-MM-DD HH:MM:SS");
-		}
-		m_time = chrono::system_clock::from_time_t(mktime(&tmStruct));
-	}
-	/**
-	* @brief Sets the DateTime from a date string with time fixed to 12:00:00 PM.
-	* @param dateString String in "YYYY-MM-DD" format.
-	* @throw invalid_argument If the date format is incorrect.
-	* @details Parses a date string and sets the time to noon (12:00:00).
-	*/
-	void setDateAtNoon(const string& date_string) {
-		istringstream iss(date_string);
-		tm tmStruct = {};
-
-		iss >> get_time(&tmStruct, "%Y-%m-%d");
-		if (iss.fail()) {
-			throw invalid_argument("Invalid date format. Expected: YYYY-MM-DD");
-		}
-
-		 //Set time to 12:00:00 PM (noon).
-		tmStruct.tm_hour = 11;
-		tmStruct.tm_min = 0;
-		tmStruct.tm_sec = 0;
-
-		m_time = chrono::system_clock::from_time_t(mktime(&tmStruct));
-	}
-
-	int getDayDifference(const DateTime& other) const {
-		// Get the time difference in hours
-		auto duration = other.getTimePoint() - m_time;
-		auto hours = chrono::duration_cast<chrono::hours>(duration).count();
-
-		// Convert hours to days
-		return hours / 24;
-	}
-	/**
-	  * @brief Converts the DateTime to a standardized string representation.
-	  * @return string Formatted as  "YYYY-MM-DD HH:MM:SS".
-	  * @details Suitable for storage, logging, or display. Uses thread-safe conversion.
-	*/
-	string getDateTimeString() const {
-		time_t timeT = chrono::system_clock::to_time_t(m_time);
-		tm tmStruct;
-#ifdef _WIN32
-		localtime_s(&tmStruct, &timeT); // Windows-specific thread-safe function
-#else
-		localtime_r(&timeT, &tmStruct); // POSIX-specific thread-safe function
-#endif
-		ostringstream oss;
-		oss << put_time(&tmStruct, "%Y-%m-%d %H:%M:%S");
-		return oss.str();
-	}
+	 * @brief Adds specified number of days to the DateTime.
+	 * @param days Number of days to add.
+	 * @return DateTime New DateTime object with added days.
+	 */
+	DateTime operator+(int days) const;
 
 	/**
-	  * @brief Extracts the time portion of the DateTime.
-	  * @return string Formatted as "HH:MM:SS".
-	*/	
-	string getTimeString() const {
-		time_t timeT = chrono::system_clock::to_time_t(m_time);
-		tm tmStruct;
-#ifdef _WIN32
-		localtime_s(&tmStruct, &timeT);
-#else
-		localtime_r(&timeT, &tmStruct);
-#endif
-		ostringstream oss;
-		oss << put_time(&tmStruct, "%H:%M:%S");
-		return oss.str();
-	}
-	/**
-	  * @brief Extracts the date portion of the DateTime.
-	  * @return string Formatted as "YYYY-MM-DD".
-	*/
-	string getDateString() const {
-		time_t timeT = chrono::system_clock::to_time_t(m_time);
-		tm tmStruct;
-#ifdef _WIN32
-		localtime_s(&tmStruct, &timeT);
-#else
-		localtime_r(&timeT, &tmStruct);
-#endif
-		ostringstream oss;
-		oss << put_time(&tmStruct, "%Y-%m-%d");
-		return oss.str();
-	}
-
-	
+	 * @brief Less than or equal comparison.
+	 * @param rhs DateTime to compare against.
+	 * @return bool True if this DateTime <= rhs.
+	 */
+	bool operator<=(const DateTime& rhs) const;
 
 	/**
-	  * @brief Gets the internal time_point representation.
-	  * @return chrono::system_clock::time_point The underlying time point.
-	  * @note Useful for calculations with the chrono library.
-	*/
-	chrono::system_clock::time_point getTimePoint() const {
-		return m_time;
-	}
+	 * @brief Greater than or equal comparison.
+	 * @param rhs DateTime to compare against.
+	 * @return bool True if this DateTime >= rhs.
+	 */
+	bool operator>=(const DateTime& rhs) const;
+
+	/**
+	 * @brief Greater than comparison.
+	 * @param rhs DateTime to compare against.
+	 * @return bool True if this DateTime > rhs.
+	 */
+	bool operator>(const DateTime& rhs) const;
+
+	/**
+	 * @brief Less than comparison.
+	 * @param rhs DateTime to compare against.
+	 * @return bool True if this DateTime < rhs.
+	 */
+	bool operator<(const DateTime& rhs) const;
+
+	/**
+	 * @brief Sets time from time_point object.
+	 * @param new_time The new time point to set.
+	 */
+	void setDateTime(const std::chrono::system_clock::time_point& new_time);
+
+	/**
+	 * @brief Sets time by parsing formatted string.
+	 * @param date_time_string String in "YYYY-MM-DD HH:MM:SS" format.
+	 * @throw std::invalid_argument If the input string format is incorrect.
+	 */
+	void setDateTime(const std::string& date_time_string);
+
+	/**
+	 * @brief Sets date with time fixed to 12:00:00 PM.
+	 * @param date_string String in "YYYY-MM-DD" format.
+	 * @throw std::invalid_argument If the date format is incorrect.
+	 */
+	void setDateAtNoon(const std::string& date_string);
+
+	/**
+	 * @brief Calculates day difference between two dates.
+	 * @param other DateTime to compare against.
+	 * @return int Number of days difference.
+	 */
+	int getDayDifference(const DateTime& other) const;
+
+	/**
+	 * @brief Converts to standardized string representation.
+	 * @return string Formatted as "YYYY-MM-DD HH:MM:SS".
+	 */
+	std::string getDateTimeString() const;
+
+	/**
+	 * @brief Extracts time portion of the DateTime.
+	 * @return string Formatted as "HH:MM:SS".
+	 */
+	std::string getTimeString() const;
+
+	/**
+	 * @brief Extracts date portion of the DateTime.
+	 * @return string Formatted as "YYYY-MM-DD".
+	 */
+	std::string getDateString() const;
+
+	/**
+	 * @brief Gets internal time_point representation.
+	 * @return chrono::system_clock::time_point Underlying time point.
+	 */
+	std::chrono::system_clock::time_point getTimePoint() const;
 };
+
 
 /**
   * @class Room
@@ -1463,7 +1405,125 @@ public:
 	void run();
 };
 
+//DateTime Class
+//Constructor Definition
+	DateTime::DateTime() : m_time(std::chrono::system_clock::now()) {}
 
+	DateTime::DateTime(const std::string& dateTimeString) {
+		std::istringstream iss(dateTimeString);
+		std::tm tmStruct = {};
+		iss >> std::get_time(&tmStruct, "%Y-%m-%d %H:%M:%S");
+		if (iss.fail()) {
+			throw std::invalid_argument("Invalid date-time format. Expected: YYYY-MM-DD HH:MM:SS");
+		}
+		m_time = std::chrono::system_clock::from_time_t(std::mktime(&tmStruct));
+	}
+
+	DateTime DateTime::operator+(int days) const {
+		DateTime result = *this;
+		result.m_time += std::chrono::hours(24 * days);
+		return result;
+	}
+
+	bool DateTime::operator<=(const DateTime& rhs) const {
+		return m_time <= rhs.m_time;
+	}
+
+	bool DateTime::operator>=(const DateTime& rhs) const {
+		return m_time >= rhs.m_time;
+	}
+
+	bool DateTime::operator>(const DateTime& rhs) const {
+		return m_time > rhs.m_time;
+	}
+
+	bool DateTime::operator<(const DateTime& rhs) const {
+		return m_time < rhs.m_time;
+	}
+
+	void DateTime::setDateTime(const std::chrono::system_clock::time_point& new_time) {
+		m_time = new_time;
+	}
+
+	void DateTime::setDateTime(const std::string& date_time_string) {
+		std::istringstream iss(date_time_string);
+		std::tm tmStruct = {};
+		iss >> std::get_time(&tmStruct, "%Y-%m-%d %H:%M:%S");
+		if (iss.fail()) {
+			throw std::invalid_argument("Invalid date-time format. Expected: YYYY-MM-DD HH:MM:SS");
+		}
+		m_time = std::chrono::system_clock::from_time_t(std::mktime(&tmStruct));
+	}
+
+	void DateTime::setDateAtNoon(const std::string& date_string) {
+		std::istringstream iss(date_string);
+		std::tm tmStruct = {};
+		iss >> std::get_time(&tmStruct, "%Y-%m-%d");
+		if (iss.fail()) {
+			throw std::invalid_argument("Invalid date format. Expected: YYYY-MM-DD");
+		}
+
+		tmStruct.tm_hour = 12;
+		tmStruct.tm_min = 0;
+		tmStruct.tm_sec = 0;
+
+		m_time = std::chrono::system_clock::from_time_t(std::mktime(&tmStruct));
+	}
+
+	int DateTime::getDayDifference(const DateTime& other) const {
+		auto duration = other.getTimePoint() - m_time;
+		auto hours = std::chrono::duration_cast<std::chrono::hours>(duration).count();
+		return hours / 24;
+	}
+
+	std::string DateTime::getDateTimeString() const {
+		std::time_t timeT = std::chrono::system_clock::to_time_t(m_time);
+		std::tm tmStruct;
+
+	#ifdef _WIN32
+		localtime_s(&tmStruct, &timeT);
+	#else
+		localtime_r(&timeT, &tmStruct);
+	#endif
+
+		std::ostringstream oss;
+		oss << std::put_time(&tmStruct, "%Y-%m-%d %H:%M:%S");
+		return oss.str();
+	}
+
+	std::string DateTime::getTimeString() const {
+		std::time_t timeT = std::chrono::system_clock::to_time_t(m_time);
+		std::tm tmStruct;
+
+	#ifdef _WIN32
+		localtime_s(&tmStruct, &timeT);
+	#else
+		localtime_r(&timeT, &tmStruct);
+	#endif
+
+		std::ostringstream oss;
+		oss << std::put_time(&tmStruct, "%H:%M:%S");
+		return oss.str();
+	}
+
+	std::string DateTime::getDateString() const {
+		std::time_t timeT = std::chrono::system_clock::to_time_t(m_time);
+		std::tm tmStruct;
+
+	#ifdef _WIN32
+		localtime_s(&tmStruct, &timeT);
+	#else
+		localtime_r(&timeT, &tmStruct);
+	#endif
+
+		std::ostringstream oss;
+		oss << std::put_time(&tmStruct, "%Y-%m-%d");
+		return oss.str();
+	}
+
+	std::chrono::system_clock::time_point DateTime::getTimePoint() const {
+		return m_time;
+	}
 	//Room Class
 
 	//Constructors  Definition
