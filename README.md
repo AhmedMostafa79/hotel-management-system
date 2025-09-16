@@ -70,7 +70,7 @@ HotelSystem
 ### Compilation
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/hotel-management-system.git
+git clone https://github.com/AhmedMostafa79/hotel-management-system.git
 cd hotel-management-system
 
 # Compile using G++
