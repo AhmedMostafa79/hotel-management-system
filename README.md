@@ -72,6 +72,7 @@ HotelSystem
 # Clone the repository
 git clone https://github.com/AhmedMostafa79/hotel-management-system.git
 cd hotel-management-system
+cd "Hotel Management System"
 
 # Compile using G++
 g++ -std=c++17 *.cpp -o hotel_system
