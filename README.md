@@ -40,8 +40,8 @@ The system is structured into three distinct layers for clear separation of conc
 *Detailed UML class diagram showing all attributes, methods, and relationships*
 
 ### System Usage Flow
-![Use Case Diagram](Hotel%20Management%20System/Use%20Case%20Diagram.png)
-*Use cases showing how different actors interact with the system*
+![Sequence Diagram](Hotel%20Management%20System/Use%20Case%20Diagram.png)
+*Sequence showing how different actors interact with the system*
 
 ## 📦 Class Structure
 ```
