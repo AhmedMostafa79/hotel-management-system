@@ -2,33 +2,40 @@
 A robust, console-based Hotel Management System built in C++ to demonstrate advanced Object-Oriented Programming (OOP) and Design (OOD) principles. This system efficiently manages rooms, customers, and bookings through a well-architected, multi-layered design.
 
 ## 🚀 Features
-- **Room Management**: Add, delete, update, and view room details (Standard, Deluxe, Suite).
+- **Room Management**: Add, delete, update, and view room details.
+  - **Standard Room**: Basic amenities at a budget-friendly price.
+  - **Deluxe Room**: Premium amenities with extra fees.
+  - **Suite**: Luxury rooms with optional features like a jacuzzi.
 - **Customer Management**: Maintain customer records with contact information.
 - **Booking System**: Create, cancel, and modify bookings with automatic conflict detection to prevent double-booking.
 - **Date & Time Handling**: Custom DateTime class for accurate booking period calculations and overlap checks.
 - **Role-Based UI**: Separate menus for Administrators (managing rooms) and Receptionists (managing bookings and customers).
 - **Data Validation**: Comprehensive input validation (email, phone number, date conflicts).
 
+
 ## 🧱 Architecture & OOD Highlights
 This project is a textbook example of clean software architecture, built upon core OOP principles.
+
 
 ### 1. Layered Design
 The system is structured into three distinct layers for clear separation of concerns:
 
-- **Model Layer**: Core entity classes (Room, Customer, Booking, DateTime).
-- **Service/Manager Layer**: Classes that manage object lifecycles and business logic (RoomsManager, CustomersManager, BookingsManager, HotelManager).
-- **View/UI Layer**: The HotelUI class handles all user input and output, keeping the core logic clean.
+- **Model Layer**: Core entity classes (`Room`, `StandardRoom`, `DeluxeRoom`, `Suite`, `Customer`, `Booking`, `DateTime`).
+- **Service/Manager Layer**: Classes that manage object lifecycles and business logic (`RoomsManager`, `CustomersManager`, `BookingsManager`, `HotelManager`).
+- **View/UI Layer**: The `HotelUI` class handles all user input and output, keeping the core logic clean.
+
 
 ### 2. Key Object-Oriented Principles Applied
 - **Encapsulation**: All class member variables are private, exposed through well-defined public interfaces.
 - **Single Responsibility**: Each class has a clear, singular purpose (e.g., BookingsManager only manages bookings).
 - **Composition over Inheritance**: The system is built by composing managers and entities. Inheritance is thoughtfully used for a future Room hierarchy.
-- **RAII**: Manual memory management is handled correctly with destructors cleaning up dynamic memory, following the Rule of Five.
+- **Inheritance & Polymorphism**: A polymorphic `Room` hierarchy is implemented with pure virtual methods, allowing specialized room types (Standard, Deluxe, Suite) to define their own behavior.
+- **RAII & Smart Pointers**: Resource Acquisition Is Initialization is applied with `std::unique_ptr` smart pointers to ensure automatic cleanup of dynamically allocated objects.
 - **Dependency Injection**: The HotelUI is injected with a HotelManager reference, promoting loose coupling and testability.
 
 ### 3. Modern C++ Practices
-- **Smart Memory Management**: Use of raw pointers with explicit ownership semantics in managers, ensuring no memory leaks.
-- **Standard Library Usage**: Heavy use of `std::vector`, `std::string`, `std::optional` for safe function returns, and the `<chrono>` library within the DateTime class.
+- **Smart Memory Management**: Explicit ownership semantics in managers, ensuring no memory leaks.
+- **Standard Library Usage**: Heavy use of `std::vector`, `std::string`, `std::optional`, and `<chrono>`.
 - **Exception Handling**: Robust use of exceptions for error handling (e.g., invalid email format) caught at the UI layer.
 
 ### High-Level Overview
@@ -44,20 +51,24 @@ The system is structured into three distinct layers for clear separation of conc
 HotelSystem
 │
 ├── Model Layer
-│   ├── DateTime.*    # Handles all date-time logic and operations
-│   ├── Room.*        # Entity class for room data
-│   ├── Customer.*    # Entity class for customer data
-│   └── Booking.*     # Entity class for booking data and conflict detection
+│ ├── DateTime.* # Handles all date-time logic and operations
+│ ├── Room.* # Abstract base class with virtual methods
+│ ├── StandardRoom.* # Derived from Room, basic pricing
+│ ├── DeluxeRoom.* # Derived from Room, includes extra fees
+│ ├── Suite.* # Derived from Room, optional jacuzzi
+│ ├── Customer.* # Entity class for customer data
+│ └── Booking.* # Entity class for booking data and conflict detection
 │
 ├── Manager Layer
-│   ├── RoomsManager.*        # CRUD operations for Room objects
-│   ├── CustomersManager.*    # CRUD operations for Customer objects
-│   ├── BookingsManager.*     # CRUD operations for Booking objects
-│   └── HotelManager.*        # Facade that orchestrates all other managers
+│ ├── RoomsManager.* # CRUD operations for Room hierarchy
+│ ├── CustomersManager.* # CRUD operations for Customer objects
+│ ├── BookingsManager.* # CRUD operations for Booking objects
+│ └── HotelManager.* # Facade that orchestrates all other managers
 │
 └── View Layer
-    └── HotelUI.*             # Handles all console I/O and user interaction
+└── HotelUI.* # Handles all console I/O and user interaction
 ```
+
 
 ## 🔧 Build & Run
 ### Prerequisites
@@ -87,7 +98,6 @@ Upon running, you will be presented with the main menu.
 
 ## 🔮 Future Enhancements
 - **Persistence**: Save and load data to/from files (JSON/CSV).
-- **Polymorphic Room Hierarchy**: Fully implement DeluxeRoom and Suite classes with specialized pricing.
 - **Graphical User Interface (GUI)**: Replace the console UI with a Qt or web-based interface.
 - **Database Integration**: Use SQLite or MySQL for data storage.
 
