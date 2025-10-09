@@ -1,110 +1,204 @@
 # 🏨 Hotel Management System
-A robust, console-based Hotel Management System built in C++ to demonstrate advanced Object-Oriented Programming (OOP) and Design (OOD) principles. This system efficiently manages rooms, customers, and bookings through a well-architected, multi-layered design.
+
+A robust, console-based Hotel Management System built in C++ to demonstrate advanced Object-Oriented Programming (OOP), Object-Oriented Design (OOD), and modern software engineering practices. This system efficiently manages rooms, customers, and bookings through a well-architected, multi-layered design with full **MySQL database persistence**.
 
 ## 🚀 Features
-- **Room Management**: Add, delete, update, and view room details.
-  - **Standard Room**: Basic amenities at a budget-friendly price.
-  - **Deluxe Room**: Premium amenities with extra fees.
-  - **Suite**: Luxury rooms with optional features like a jacuzzi.
-- **Customer Management**: Maintain customer records with contact information.
-- **Booking System**: Create, cancel, and modify bookings with automatic conflict detection to prevent double-booking.
-- **Date & Time Handling**: Custom DateTime class for accurate booking period calculations and overlap checks.
-- **Role-Based UI**: Separate menus for Administrators (managing rooms) and Receptionists (managing bookings and customers).
-- **Data Validation**: Comprehensive input validation (email, phone number, date conflicts).
 
+* **Room Management**: Add, delete, update, and view room details with database persistence.
+  * **Standard Room**: Basic amenities at a budget-friendly price.
+  * **Deluxe Room**: Premium amenities with extra fees.
+  * **Suite**: Luxury rooms with optional features like a jacuzzi.
+* **Customer Management**: Maintain customer records with contact information, stored in MySQL database.
+* **Booking System**: Create, cancel, and modify bookings with automatic conflict detection to prevent double-booking.
+* **Database Persistence**: Full MySQL integration with prepared statements and connection pooling.
+* **Date & Time Handling**: Custom DateTime class for accurate booking period calculations and overlap checks.
+* **Role-Based UI**: Separate menus for Administrators (managing rooms) and Receptionists (managing bookings and customers).
+* **Data Validation**: Comprehensive input validation (email, phone number, date conflicts, database constraints).
+* **Configuration Management**: CSV-based database configuration with `DatabaseConfig.txt`.
 
 ## 🧱 Architecture & OOD Highlights
-This project is a textbook example of clean software architecture, built upon core OOP principles.
 
+This project is a textbook example of clean software architecture, built upon core OOP principles and enhanced with **enterprise-grade design patterns**.
 
 ### 1. Layered Design
-The system is structured into three distinct layers for clear separation of concerns:
 
-- **Model Layer**: Core entity classes (`Room`, `StandardRoom`, `DeluxeRoom`, `Suite`, `Customer`, `Booking`, `DateTime`).
-- **Service/Manager Layer**: Classes that manage object lifecycles and business logic (`RoomsManager`, `CustomersManager`, `BookingsManager`, `HotelManager`).
-- **View/UI Layer**: The `HotelUI` class handles all user input and output, keeping the core logic clean.
+The system is structured into **four distinct layers** for clear separation of concerns:
 
+* **Model Layer**: Core entity classes (`Room`, `StandardRoom`, `DeluxeRoom`, `Suite`, `Customer`, `Booking`, `DateTime`).
+* **Repository Layer**: `RoomRepository`, `CustomerRepository`, `BookingRepository` handle database interactions with **MySQL persistence**.
+* **Database Abstraction Layer**: `IDatabase`, `MySQLDatabase`, `IGenericStatement`, `IGenericResultSet` provide **database-agnostic interfaces**.
+* **Orchestration Layer**: `HotelManager` coordinates repositories and enforces business rules.
+* **View/UI Layer**: The `HotelUI` class handles all user input and output, keeping the core logic clean.
 
-### 2. Key Object-Oriented Principles Applied
-- **Encapsulation**: All class member variables are private, exposed through well-defined public interfaces.
-- **Single Responsibility**: Each class has a clear, singular purpose (e.g., BookingsManager only manages bookings).
-- **Composition over Inheritance**: The system is built by composing managers and entities. Inheritance is thoughtfully used for a future Room hierarchy.
-- **Inheritance & Polymorphism**: A polymorphic `Room` hierarchy is implemented with pure virtual methods, allowing specialized room types (Standard, Deluxe, Suite) to define their own behavior.
-- **RAII & Smart Pointers**: Resource Acquisition Is Initialization is applied with `std::unique_ptr` smart pointers to ensure automatic cleanup of dynamically allocated objects.
-- **Dependency Injection**: The HotelUI is injected with a HotelManager reference, promoting loose coupling and testability.
+### 2. Key Design Patterns Implemented
 
-### 3. Modern C++ Practices
-- **Smart Memory Management**: Explicit ownership semantics in managers, ensuring no memory leaks.
-- **Standard Library Usage**: Heavy use of `std::vector`, `std::string`, `std::optional`, and `<chrono>`.
-- **Exception Handling**: Robust use of exceptions for error handling (e.g., invalid email format) caught at the UI layer.
+* **Repository Pattern**: Abstracts data access logic and provides a uniform interface for data operations.
+* **Adapter Pattern**: `MySQLDatabase`, `MySQLStatementWrapper`, `MySQLResultSetWrapper` adapt MySQL Connector/C++ to generic interfaces.
+* **Dependency Injection**: All components receive their dependencies through constructors, promoting testability.
+* **Strategy Pattern**: Different room types implement specialized behavior through inheritance.
+* **Factory Pattern**: `HotelManager` acts as a factory for creating room instances.
 
-### High-Level Overview
-![Simplified Class Diagram](Hotel%20Management%20System/Class%20Diagram%20Simplified.png)
-*Simplified view of the core architecture showing main components and relationships*
+### 3. Key Object-Oriented Principles Applied
 
-### Detailed Class Structure  
-![Comprehensive Class Diagram](Hotel%20Management%20System/Class%20Diagram%20Comprehensive.png)
-*Detailed UML class diagram showing all attributes, methods, and relationships*
+* **Encapsulation**: All class member variables are private, exposed through well-defined public interfaces.
+* **Single Responsibility**: Each class has a clear, singular purpose (separation of data access, business logic, and presentation).
+* **Open/Closed Principle**: Easy to extend with new room types or database implementations without modifying existing code.
+* **Interface Segregation**: Clean, minimal interfaces (`IDatabase`, `IGenericStatement`, `IGenericResultSet`).
+* **Composition over Inheritance**: Managers and repositories are composed to create higher-level functionality.
+* **Inheritance & Polymorphism**: A polymorphic `Room` hierarchy allows specialized room types to define their own behavior.
+* **RAII & Smart Pointers**: `std::unique_ptr` ensures automatic cleanup of dynamically allocated objects.
+
+### 4. Modern C++ Practices
+
+* **Smart Memory Management**: Explicit ownership semantics with `std::unique_ptr` and `std::make_unique`.
+* **Standard Library Usage**: Heavy use of `std::vector`, `std::string`, `std::optional`, and `<chrono>`.
+* **Exception Handling**: Robust use of exceptions for error handling, caught at the UI layer.
+* **RAII**: Resource management through constructors/destructors for database connections.
+* **Move Semantics**: Efficient resource transfer in repository operations.
+
+### 5. Iterative Development Timeline
+
+| Phase                                                   | Focus                                                                              | Key Achievements                                                                                             |
+| ------------------------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Phase 1 – Core OOP & In-Memory Storage**              | Implemented core entities and HotelManager orchestration                           | Applied encapsulation, inheritance for Room hierarchy, and basic business rules                              |
+| **Phase 2 – Manager Layer & CRUD Operations**           | Added RoomsManager, CustomersManager, BookingsManager                              | Applied Single Responsibility, dependency injection, and smart pointers                                      |
+| **Phase 3 – Console UI & Role-Based Interaction**       | Built HotelUI with separate menus for Admin and Receptionist                       | Introduced input validation, conflict detection, and clean separation of UI from logic                       |
+| **Phase 4 – Repository Pattern & Database Integration** | **Added full MySQL persistence with Repository and Adapter patterns**             | **Demonstrated Repository Pattern, Adapter Pattern, prepared statements, and enterprise-grade database design** |
 
 ## 📦 Class Structure
+
 ```
 HotelSystem
 │
 ├── Model Layer
-│ ├── DateTime.* # Handles all date-time logic and operations
-│ ├── Room.* # Abstract base class with virtual methods
-│ ├── StandardRoom.* # Derived from Room, basic pricing
-│ ├── DeluxeRoom.* # Derived from Room, includes extra fees
-│ ├── Suite.* # Derived from Room, optional jacuzzi
-│ ├── Customer.* # Entity class for customer data
-│ └── Booking.* # Entity class for booking data and conflict detection
+│ ├── DateTime.*
+│ ├── Room.*
+│ ├── StandardRoom.*
+│ ├── DeluxeRoom.*
+│ ├── Suite.*
+│ ├── Customer.*
+│ └── Booking.*
 │
-├── Manager Layer
-│ ├── RoomsManager.* # CRUD operations for Room hierarchy
-│ ├── CustomersManager.* # CRUD operations for Customer objects
-│ ├── BookingsManager.* # CRUD operations for Booking objects
-│ └── HotelManager.* # Facade that orchestrates all other managers
+├── Database Abstraction Layer
+│ ├── IDatabase.h (Interface)
+│ ├── IGenericStatement.h (Interface)
+│ ├── IGenericResultSet.h (Interface)
+│ ├── MySQLDatabase.* (Adapter)
+│ ├── MySQLStatementWrapper.* (Adapter)
+│ ├── MySQLResultSetWrapper.* (Adapter)
+│ └── DatabaseConfig.*
+│
+├── Repository Layer
+│ ├── RoomRepository.*
+│ ├── CustomerRepository.*
+│ └── BookingRepository.*
+│
+├── Orchestration Layer
+│ └── HotelManager.*
 │
 └── View Layer
-└── HotelUI.* # Handles all console I/O and user interaction
+  └── HotelUI.*
 ```
-
 
 ## 🔧 Build & Run
+
 ### Prerequisites
-- A C++17 compatible compiler (GCC, Clang, MSVC)
 
-### Compilation
-```bash
-# Clone the repository
-git clone https://github.com/AhmedMostafa79/hotel-management-system.git
-cd hotel-management-system
-cd "Hotel Management System"
+* Visual Studio 2022 (or any C++17 compatible compiler)
+* MySQL Server (optional - for database persistence)
 
-# Compile using G++
-g++ -std=c++17 *.cpp -o hotel_system
+### Quick Start
 
-# Run the program
-./hotel_system
+```powershell
+# 1. Open the project in Visual Studio
+start Hotel_ManagementSystem.vcxproj
+
+# 2. Build the project (Ctrl+Shift+B)
+# 3. Run in console (Ctrl+F5)
+
+# Or build and run from command line:
+msbuild Hotel_ManagementSystem.vcxproj /p:Configuration=Release /p:Platform=x64
+.\x64\Release\Hotel_ManagementSystem.exe
 ```
 
-## 👨‍💻 Usage
-Upon running, you will be presented with the main menu.
+### Database Configuration (Optional)
 
-- Choose between **Admin** (password: `admin`) or **Receptionist** (password: `reception`) roles.
-- Admins can manage the room inventory.
-- Receptionists can manage customer records, check room availability, and create/modify bookings.
-- The system guides you through each operation with clear prompts.
+Create `DatabaseConfig.txt` in the project folder:
+```
+hotel_db,localhost:3306,root,your_password
+```
+
+*Note: App runs without database - shows connection errors but UI works fully*
+
+## 👨‍💻 Usage
+
+### Getting Started
+1. **Configure Database**: Ensure `DatabaseConfig.txt` contains valid MySQL connection details
+2. **Launch Application**: Run the executable to start the hotel management system
+3. **Choose Role**: Select between **Admin** (password: `admin`) or **Receptionist** (password: `reception`)
+
+### Role-Based Operations
+* **Administrators**: 
+  - Add, update, and delete rooms
+  - Manage room types, prices, and status
+  - View comprehensive reports
+* **Receptionists**: 
+  - Manage customer records and bookings
+  - Check room availability in real-time
+  - Handle check-ins, check-outs, and modifications
+  - Generate booking reports
+
+### Key Features in Action
+* **Real-time Availability**: Database-backed room availability checking prevents double-booking
+* **Data Persistence**: All changes are immediately saved to MySQL database
+* **Input Validation**: Comprehensive validation with clear error messages
+* **Transaction Safety**: Database operations use prepared statements for security
+
+## 🏗️ Technical Highlights
+
+### Database Architecture
+- **Connection Management**: Automated connection handling with proper cleanup
+- **Prepared Statements**: All database operations use prepared statements for security
+- **Result Set Mapping**: Clean mapping from database rows to C++ objects
+- **Transaction Safety**: RAII ensures database resources are properly managed
+
+### Design Pattern Implementation
+- **Repository Pattern**: Clean separation between business logic and data access
+- **Adapter Pattern**: Database-agnostic interfaces allow easy switching between database providers
+- **Dependency Injection**: Loose coupling through constructor injection
+- **Strategy Pattern**: Polymorphic room types with specialized behavior
+
+### API Documentation
+Comprehensive **Doxygen-style** documentation throughout the codebase:
+- All public interfaces documented with `@brief`, `@param`, `@return` tags
+- Clear contracts and side effects specified
+- Ready for automated documentation generation
 
 ## 🔮 Future Enhancements
-- **Persistence**: Save and load data to/from files (JSON/CSV).
-- **Graphical User Interface (GUI)**: Replace the console UI with a Qt or web-based interface.
-- **Database Integration**: Use SQLite or MySQL for data storage.
+
+* **Graphical User Interface (GUI)**: Replace the console UI with a Qt or web-based interface
+* **Advanced Patterns**: Apply additional design patterns (Observer, Command, Factory Method)
+* **Unit Testing**: Add mock database adapter for comprehensive testing
+* **API Layer**: RESTful API for external integrations
+* **Reporting System**: Advanced analytics and reporting capabilities
 
 ## 📋 Learning Outcomes
+
 This project demonstrates mastery of:
-- Designing and implementing a complex, multi-class system in C++.
-- Applying SOLID principles and classic design patterns (Factory, Facade).
-- Writing clean, maintainable, and well-documented code.
-- Managing object lifetimes and resources without smart pointers for educational purposes.
-- Creating a robust and user-friendly console interface.
+
+### Core Programming Concepts
+* **Advanced C++17**: Modern language features, smart pointers, RAII
+* **Object-Oriented Design**: Encapsulation, inheritance, polymorphism, composition
+* **SOLID Principles**: Single Responsibility, Open/Closed, Interface Segregation, Dependency Inversion
+
+### Software Engineering Practices
+* **Design Patterns**: Repository, Adapter, Strategy, Dependency Injection
+* **Database Design**: Relational modeling, prepared statements, connection management
+* **Layered Architecture**: Clean separation of concerns across multiple layers
+* **Documentation**: Professional-grade code documentation and API design
+
+### Professional Development Skills
+* **Iterative Development**: Systematic feature development across multiple phases
+* **Error Handling**: Robust exception handling and input validation
+* **Resource Management**: Proper cleanup and memory management
+* **Maintainable Code**: Clean, well-structured, and easily extensible codebase
