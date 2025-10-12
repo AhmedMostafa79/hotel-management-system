@@ -1,6 +1,6 @@
 # 🏨 Hotel Management System
 
-A robust, console-based Hotel Management System built in C++ to demonstrate advanced Object-Oriented Programming (OOP), Object-Oriented Design (OOD), and modern software engineering practices. This system efficiently manages rooms, customers, and bookings through a well-architected, multi-layered design with full **MySQL database persistence**.
+A robust, console-based Hotel Management System built in C++ to demonstrate advanced Object-Oriented Programming (OOP), Object-Oriented Design (OOD), and modern software engineering practices. This system efficiently manages rooms, customers, and bookings through a well-architected, multi-layered design with full **MySQL database persistence**. It is **thread-safe** and supports **transaction processing** for atomic, consistent operations.
 
 ## 🚀 Features
 
@@ -11,6 +11,8 @@ A robust, console-based Hotel Management System built in C++ to demonstrate adva
 * **Customer Management**: Maintain customer records with contact information, stored in MySQL database.
 * **Booking System**: Create, cancel, and modify bookings with automatic conflict detection to prevent double-booking.
 * **Database Persistence**: Full MySQL integration with prepared statements and connection pooling.
+* **Transaction Processing**: Atomic multi-step operations with commit/rollback guarantees via RAII-based `ScopedTransaction`.
+* **Thread-Safety**: Concurrency-safe managers and repositories using synchronization primitives to prevent data races.
 * **Date & Time Handling**: Custom DateTime class for accurate booking period calculations and overlap checks.
 * **Role-Based UI**: Separate menus for Administrators (managing rooms) and Receptionists (managing bookings and customers).
 * **Data Validation**: Comprehensive input validation (email, phone number, date conflicts, database constraints).
@@ -161,12 +163,14 @@ hotel_db,localhost:3306,root,your_password
 - **Prepared Statements**: All database operations use prepared statements for security
 - **Result Set Mapping**: Clean mapping from database rows to C++ objects
 - **Transaction Safety**: RAII ensures database resources are properly managed
+- **Transaction Processing**: Begin/commit/rollback across multi-statement workflows ensure ACID-like behavior
 
 ### Design Pattern Implementation
 - **Repository Pattern**: Clean separation between business logic and data access
 - **Adapter Pattern**: Database-agnostic interfaces allow easy switching between database providers
 - **Dependency Injection**: Loose coupling through constructor injection
 - **Strategy Pattern**: Polymorphic room types with specialized behavior
+- **Unit of Work / Transaction**: `ScopedTransaction` groups multiple database operations into a single atomic unit with commit/rollback
 
 ### API Documentation
 Comprehensive **Doxygen-style** documentation throughout the codebase:
