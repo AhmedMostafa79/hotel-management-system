@@ -2,6 +2,17 @@
 
 A robust, console-based Hotel Management System built in C++ to demonstrate advanced Object-Oriented Programming (OOP), Object-Oriented Design (OOD), and modern software engineering practices. This system efficiently manages rooms, customers, and bookings through a well-architected, multi-layered design with full **MySQL database persistence**. It is **thread-safe** and supports **transaction processing** for atomic, consistent operations.
 
+## ⬇️ Download (Windows release)
+- Direct ZIP: https://github.com/user-attachments/files/22804771/Hotel_ManagementSystem_Release.zip
+
+## ▶ Quick Run (Windows release)
+- Extract the ZIP and double‑click `Hotel_ManagementSystem.exe` (keep `DatabaseConfig.txt` in the same folder)
+- If needed, edit `DatabaseConfig.txt` (schema, server, user, password):
+  - Local MySQL (3306): `hotelmanagement,tcp://127.0.0.1:3306,root,root`
+  - Docker MySQL (3307): `hotelmanagement,tcp://127.0.0.1:3307,root,root`
+- If the database is empty, import `init-hotel-lowercase.sql` once into the `hotelmanagement` schema (Workbench or mysql CLI)
+- On a clean PC you may need MySQL Connector/C++ DLLs or the VC++ Redistributable next to the `.exe`
+
 ## 🚀 Features
 
 * **Room Management**: Add, delete, update, and view room details with database persistence.
@@ -102,35 +113,8 @@ HotelSystem
   └── HotelUI.*
 ```
 
-## 🔧 Build & Run
-
-### Prerequisites
-
-* Visual Studio 2022 (or any C++17 compatible compiler)
-* MySQL Server (optional - for database persistence)
-
-### Quick Start
-
-```powershell
-# 1. Open the project in Visual Studio
-start Hotel_ManagementSystem.vcxproj
-
-# 2. Build the project (Ctrl+Shift+B)
-# 3. Run in console (Ctrl+F5)
-
-# Or build and run from command line:
-msbuild Hotel_ManagementSystem.vcxproj /p:Configuration=Release /p:Platform=x64
-.\x64\Release\Hotel_ManagementSystem.exe
-```
-
-### Database Configuration (Optional)
-
-Create `DatabaseConfig.txt` in the project folder:
-```
-hotel_db,localhost:3306,root,your_password
-```
-
-*Note: App runs without database - shows connection errors but UI works fully*
+## 🔧 Build & Run (developers)
+This repository includes full source code. If you’re reviewing the design and not building locally, you can skip this section and use the Windows release above.
 
 ## 👨‍💻 Usage
 
