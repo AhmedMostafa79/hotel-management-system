@@ -15,6 +15,7 @@ HotelManager& HotelSystem::getHotelManager() {
 
 void HotelSystem::showAdminRoomManagement() {
 	std::vector<std::string> menu_items = {
+		"Add New Room",
 		"Delete Room",
 		"Modify Room Details",
 		"View Room Details",
@@ -113,7 +114,6 @@ void HotelSystem::showBookingManagementMenu() {
 
 	while (true) {
 		int choice = showInnerReadMenu("BOOKINGS MANAGEMENT", menu_items);
-
 		switch (choice) {
 		case 1: getHotelUI().addNewBookingUI(); break;
 		case 2: getHotelUI().deleteBookingUI(); break;

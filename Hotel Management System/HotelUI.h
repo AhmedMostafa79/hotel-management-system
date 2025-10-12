@@ -78,6 +78,7 @@ public:
 	 */
 	void printBookingByIDUI() const;
 
+
 	/**
 	 * @brief Creates a standard room with given status and price.
 	 */

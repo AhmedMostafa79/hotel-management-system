@@ -93,4 +93,12 @@ public:
     * @return std::string The implementation type name.
     */
    virtual std::string getType() const = 0;
+
+   virtual void beginTransaction() = 0;
+   virtual void commitTransaction() = 0;
+   virtual void rollbackTransaction() = 0;
+   virtual bool isTransactionActive() = 0;
+   virtual std::string getTransactionIsolationLevel()const  = 0;
+   virtual void setTransactionIsolationLevel(const std::string&level) = 0;
+   virtual int getLastInsertID() = 0;
 };

@@ -64,7 +64,7 @@ public:
 	 * @param booking Booking value to persist.
 	 * @return int New booking id.
 	 */
-	int addBooking(const Booking& booking);
+	int addBookingAndGetId(const Booking& booking);
 
 	// READ
 	/**

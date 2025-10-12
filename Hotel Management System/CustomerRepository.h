@@ -65,7 +65,7 @@ public:
      * @param customer Customer value to persist.
      * @return int Inserted customer id.
      */
-    int addCustomer(const Customer& customer) const;
+    int addCustomerAndGetId(const Customer& customer) const;
 
     // READ
     /**

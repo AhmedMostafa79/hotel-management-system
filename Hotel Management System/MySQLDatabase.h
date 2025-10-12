@@ -20,7 +20,7 @@
 class MySQLDatabase : public IDatabase {
 private:
     std::unique_ptr<sql::Connection> connection; ///< Owning pointer to the driver connection.
-
+    bool transactionActive;
     /**
      * @brief Returns a raw pointer to the driver connection.
      * @return sql::Connection* Raw connection pointer (may be null).
@@ -37,7 +37,7 @@ public:
     /**
      * @brief Default constructor.
      */
-    MySQLDatabase() {};
+    MySQLDatabase();
 
     /**
      * @brief Connect to a MySQL server using the supplied configuration.
@@ -63,7 +63,13 @@ public:
      * @return std::string Typically "MySQL".
      */
     std::string getType() const override;
-
+    void beginTransaction()override;
+     void commitTransaction() override;
+     void rollbackTransaction() override;
+     bool isTransactionActive() override { return transactionActive;}
+     std::string getTransactionIsolationLevel() const override;
+     void setTransactionIsolationLevel(const std::string& level) override;
+     int getLastInsertID()  override;
     /**
      * @brief Destructor that ensures the connection is closed.
      */

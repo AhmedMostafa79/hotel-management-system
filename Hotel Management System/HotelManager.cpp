@@ -138,7 +138,7 @@ std::unique_ptr<Room>HotelManager::addSuite(const std::string& status, double pr
 }
 
 Customer HotelManager::addNewCustomer(const std::string& name, int age, const std::string& phone, const std::string& email) {
-	int customer_id= customer_repo.addCustomer(Customer(-1,name, age, phone, email));
+	int customer_id= customer_repo.addCustomerAndGetId(Customer(-1,name, age, phone, email));
 	return getCustomerById(customer_id);
 }
 
@@ -152,7 +152,7 @@ Booking HotelManager::addNewBooking(const DateTime& check_in, const DateTime& ch
 	auto room = getRoomByNumber(room_number);
 	int days = check_out - check_in;
 	double cost = room->getTotalPrice() * days;
-	int booking_id= booking_repo.addBooking(Booking(-1, room_number, customer_id,cost , check_in, check_out,status));
+	int booking_id= booking_repo.addBookingAndGetId(Booking(-1, room_number, customer_id,cost , check_in, check_out,status));
 
 	return getBookingById(booking_id);
 }

@@ -100,9 +100,9 @@ void HotelUI::printCustomerByIdUI() const {
 }
 
 void HotelUI::printBookingByIDUI() const {
-	int booking_number = getValidatedInt("\t\tEnter Booking ID: ");
+	int booking_id = getValidatedInt("\t\tEnter Booking ID: ");
 	try {
-		auto booking = getHotelManager().getBookingById(booking_number);
+		auto booking = getHotelManager().getBookingById(booking_id);
 		std::cout << "\n\t\t=== Booking Details ===\n\n";
 		booking.printBookingInfo();
 	}
@@ -110,6 +110,8 @@ void HotelUI::printBookingByIDUI() const {
 		std::cout << "\n\t\t" << e.what() << "\n\n";
 	}
 }
+
+
 std::unique_ptr<Room> HotelUI::readStandardRoomUI(const std::string& status, double price) {
 	return getHotelManager().addStandardRoom(status, price);
 }
