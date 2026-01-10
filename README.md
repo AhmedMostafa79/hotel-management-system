@@ -11,8 +11,8 @@ A robust, console-based Hotel Management System built in C++ to demonstrate adva
 git clone https://github.com/AhmedMostafa79/hotel-management-system.git
 cd hotel-management-system
 
-# 2. Run the interactive console application
-docker-compose run --rm hotel-app
+# 2. Build and run the interactive console application
+docker-compose run --rm --build hotel-app
 
 # The hotel management system will launch in your terminal
 # Login credentials:
@@ -184,8 +184,8 @@ HotelManagementSystem/
 git clone https://github.com/AhmedMostafa79/hotel-management-system.git
 cd hotel-management-system
 
-# Run the interactive console application
-docker-compose run --rm hotel-app
+# Build and run the interactive console application
+docker-compose run --rm --build hotel-app
 
 # Credentials:
 #   Admin password: admin
