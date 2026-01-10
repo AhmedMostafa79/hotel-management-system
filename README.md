@@ -4,12 +4,12 @@ A robust, console-based Hotel Management System built in C++ to demonstrate adva
 
 
 
-## �🚀 Quick Start (Docker)
+## 🚀 Quick Start (Docker)
 
 ```bash
 # 1. Clone and run the application
 git clone https://github.com/AhmedMostafa79/hotel-management-system.git
-cd Hotel_ManagementSystem
+cd hotel-management-system
 
 # 2. Start everything with one command
 docker-compose up
@@ -24,8 +24,8 @@ docker-compose up
 
 - [Features](#-features)
 - [Architecture & OOD Highlights](#-architecture--ood-highlights)
-- [Class Structure](#-class-structure)
-- [Build & Run (developers)](#-build--run-developers)
+- [Project Structure](#-project-structure)
+- [Build & Run](#-build--run)
 - [Usage](#-usage)
 - [Technical Highlights](#️-technical-highlights)
 - [Future Enhancements](#-future-enhancements)
@@ -122,48 +122,126 @@ The system is structured into **four distinct layers** for clear separation of c
 | **Phase 3 – Console UI & Role-Based Interaction**       | Built HotelUI with separate menus for Admin and Receptionist                       | Introduced input validation, conflict detection, and clean separation of UI from logic                       |
 | **Phase 4 – Repository Pattern & Database Integration** | **Added full MySQL persistence with Repository and Adapter patterns**             | **Demonstrated Repository Pattern, Adapter Pattern, prepared statements, and enterprise-grade database design** |
 
-## 📦 Class Structure
+## 📦 Project Structure
 
 ```
-HotelSystem
+HotelManagementSystem/
+├── .git/                          # Git repository
+├── .gitignore                     # Git ignore patterns
+├── README.md                      # Project documentation
+├── docker-compose.yml             # Docker orchestration
+├── Dockerfile                     # Container build instructions
+├── init-db/                       # Database initialization
+│   └── init.sql                   # Schema and sample data
+├── src/                           # Source code
+│   ├── Model Layer
+│   │   ├── DateTime.*
+│   │   ├── Room.*
+│   │   ├── StandardRoom.*
+│   │   ├── DeluxeRoom.*
+│   │   ├── Suite.*
+│   │   ├── Customer.*
+│   │   └── Booking.*
+│   │
+│   ├── Database Abstraction Layer
+│   │   ├── IDatabase.h (Interface)
+│   │   ├── IGenericStatement.h (Interface)
+│   │   ├── IGenericResultSet.h (Interface)
+│   │   ├── MySQLDatabase.* (Adapter)
+│   │   ├── MySQLStatementWrapper.* (Adapter)
+│   │   ├── MySQLResultSetWrapper.* (Adapter)
+│   │   └── DatabaseConfig.*
+│   │
+│   ├── Repository Layer
+│   │   ├── RoomRepository.*
+│   │   ├── CustomerRepository.*
+│   │   └── BookingRepository.*
+│   │
+│   ├── Orchestration Layer
+│   │   └── HotelManager.*
+│   │
+│   ├── View Layer
+│   │   └── HotelUI.*
+│   │
+│   ├── main.cpp                   # Application entry point
+│   ├── DatabaseConfig.txt         # MySQL connection settings
+│   ├── Hotel_ManagementSystem.sln # Visual Studio solution
+│   └── Hotel_ManagementSystem.vcxproj # VS project file
 │
-├── Model Layer
-│ ├── DateTime.*
-│ ├── Room.*
-│ ├── StandardRoom.*
-│ ├── DeluxeRoom.*
-│ ├── Suite.*
-│ ├── Customer.*
-│ └── Booking.*
-│
-├── Database Abstraction Layer
-│ ├── IDatabase.h (Interface)
-│ ├── IGenericStatement.h (Interface)
-│ ├── IGenericResultSet.h (Interface)
-│ ├── MySQLDatabase.* (Adapter)
-│ ├── MySQLStatementWrapper.* (Adapter)
-│ ├── MySQLResultSetWrapper.* (Adapter)
-│ └── DatabaseConfig.*
-│
-├── Repository Layer
-│ ├── RoomRepository.*
-│ ├── CustomerRepository.*
-│ └── BookingRepository.*
-│
-├── Orchestration Layer
-│ └── HotelManager.*
-│
-└── View Layer
-  └── HotelUI.*
+├── installer/                     # Windows installer project
+│   └── Hotel System.vdproj
+└── scripts/                       # Build and utility scripts
+    ├── Build-Release.ps1
+    ├── Create-ReleaseFolder.ps1
+    ├── Enable-MySQL.ps1
+    ├── Make-Release.ps1
+    ├── Start-MySQL-Docker.bat
+    └── Start-MySQL-Docker.ps1
 ```
 
-## 🔧 Build & Run (developers)
-This repository includes full source code. If you’re reviewing the design and not building locally, you can skip this section and use the Windows release above.
+## 🔧 Build & Run
+
+### Option 1: Docker (Recommended - Works on any OS)
+
+```bash
+# Clone the repository
+git clone https://github.com/AhmedMostafa79/hotel-management-system.git
+cd hotel-management-system
+
+# Start the application (builds and runs automatically)
+docker-compose up
+
+# Credentials:
+#   Admin password: admin
+#   Receptionist password: reception
+
+# Stop the application
+docker-compose down
+
+# Clean restart (removes all data)
+docker-compose down -v
+```
+
+### Option 2: Visual Studio 2022 (Windows)
+
+**Prerequisites:**
+- Visual Studio 2022 with C++ Desktop Development
+- MySQL Server 8.0
+- MySQL Connector/C++ 8.0
+
+**Steps:**
+1. Open `src/Hotel_ManagementSystem.sln` in Visual Studio 2022
+2. Configure `src/DatabaseConfig.txt` with your MySQL credentials:
+   ```
+   localhost,3306,hotelmanagement,root,your_password
+   ```
+3. Run `init-db/init.sql` in your MySQL server to create the database schema
+4. Build and run the solution (F5 or Ctrl+F5)
+
+### Option 3: Manual Build (Linux/macOS)
+
+```bash
+# Install dependencies (Ubuntu/Debian)
+sudo apt-get update
+sudo apt-get install g++ libmysqlcppconn-dev
+
+# Build the application
+cd src
+g++ -std=c++17 -o hotel_app *.cpp -lmysqlcppconn -lpthread
+
+# Configure database (edit DatabaseConfig.txt)
+# Format: hostname,port,database,username,password
+echo "localhost,3306,hotelmanagement,root,password" > DatabaseConfig.txt
+
+# Run the application
+./hotel_app
+```
+
 
 ## 👨‍💻 Usage
 
 ### Getting Started
-1. **Configure Database**: Ensure `DatabaseConfig.txt` contains valid MySQL connection details
+1. **Configure Database**: Edit `src/DatabaseConfig.txt` with valid MySQL connection details
 2. **Launch Application**: Run the executable to start the hotel management system
 3. **Choose Role**: Select between **Admin** (password: `admin`) or **Receptionist** (password: `reception`)
 
