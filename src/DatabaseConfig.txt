@@ -1,1 +1,1 @@
-hotelmanagement,tcp://localhost,root,root
+hotelmanagement,tcp://mysql:3306,root,root

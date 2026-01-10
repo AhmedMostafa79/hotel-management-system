@@ -11,10 +11,9 @@ A robust, console-based Hotel Management System built in C++ to demonstrate adva
 git clone https://github.com/AhmedMostafa79/hotel-management-system.git
 cd hotel-management-system
 
-# 2. Start everything with one command
-docker-compose up
+# 2. Run the interactive console application
+docker-compose run --rm hotel-app
 
-# 3. Interact with the console application
 # The hotel management system will launch in your terminal
 # Login credentials:
 #   Admin password: admin
@@ -48,12 +47,9 @@ docker-compose up
 - **Credentials**: root/root (configurable in `docker-compose.yml`)
 - **Data Persistence**: MySQL data stored in Docker volume `mysql-data`
 
-### Stop the Application
+### Clean Up
 ```bash
-# Stop containers but keep data
-docker-compose down
-
-# Stop and remove all data (fresh start)
+# Remove containers and volumes (fresh start)
 docker-compose down -v
 ```
 
@@ -188,17 +184,14 @@ HotelManagementSystem/
 git clone https://github.com/AhmedMostafa79/hotel-management-system.git
 cd hotel-management-system
 
-# Start the application (builds and runs automatically)
-docker-compose up
+# Run the interactive console application
+docker-compose run --rm hotel-app
 
 # Credentials:
 #   Admin password: admin
 #   Receptionist password: reception
 
-# Stop the application
-docker-compose down
-
-# Clean restart (removes all data)
+# Clean up containers and data when done
 docker-compose down -v
 ```
 
