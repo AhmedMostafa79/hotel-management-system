@@ -12,7 +12,7 @@ WORKDIR /app
 COPY src/*.cpp src/*.h ./
 
 # Copy config file
-COPY src/DatabaseConfig.txt .
+COPY src/DatabaseConfig.docker.txt DatabaseConfig.txt
 
 # Compile the application
 RUN g++ -std=c++17 -o hotel_app *.cpp -lmysqlcppconn -lpthread
