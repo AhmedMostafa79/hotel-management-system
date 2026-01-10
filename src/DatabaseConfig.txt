@@ -1,0 +1,1 @@
+hotelmanagement,tcp://localhost,root,root
