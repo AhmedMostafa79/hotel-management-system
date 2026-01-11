@@ -29,7 +29,7 @@ docker-compose run --rm --build hotel-app
 - [Technical Highlights](#️-technical-highlights)
 - [Future Enhancements](#-future-enhancements)
 - [Learning Outcomes](#-learning-outcomes)
-- [Author & Contact](#-author--contact)
+- [Author & Contact](#️-author--contact)
 
 ---
 
@@ -310,9 +310,12 @@ This project demonstrates mastery of:
 
 ## 👨‍💻 Author & Contact
 
-**Ahmed Mustafa** - Self-Taught C++ Backend Developer
+**Ahmed Mustafa**  
+*Software Backend Engineer*
 
-*This enterprise-grade hotel management system was built through self-directed learning, demonstrating the ability to independently master complex software engineering concepts including C++17, OOP/OOD principles, design patterns, MySQL integration, and Docker containerization.*
+Passionate about building robust, enterprise-grade software systems. This project showcases my journey in mastering advanced C++ development, software architecture, and modern engineering practices through hands-on, self-directed learning.
+
+### Connect With Me
 
 - **GitHub**: [github.com/AhmedMostafa79](https://github.com/AhmedMostafa79)
 - **LinkedIn**: [linkedin.com/in/ahmed-mostafa-profile](https://www.linkedin.com/in/ahmed-khater-332121259?)
