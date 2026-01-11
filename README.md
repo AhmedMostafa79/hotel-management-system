@@ -29,7 +29,7 @@ docker-compose run --rm --build hotel-app
 - [Technical Highlights](#️-technical-highlights)
 - [Future Enhancements](#-future-enhancements)
 - [Learning Outcomes](#-learning-outcomes)
-- [Author & Contact](#️-author--contact)
+- [Author & Contact](#-author--contact)
 
 ---
 
