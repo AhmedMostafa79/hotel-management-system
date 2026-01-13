@@ -310,7 +310,7 @@ This project demonstrates mastery of:
 
 ## 👨‍💻 Author & Contact
 
-**Ahmed Mustafa**  
+**Ahmed Khater**  
 *Software Backend Engineer*
 
 Passionate about building robust, enterprise-grade software systems. This project showcases my journey in mastering advanced C++ development, software architecture, and modern engineering practices through hands-on, self-directed learning.
