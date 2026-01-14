@@ -19,19 +19,7 @@ docker-compose run --rm --build hotel-app
 #   Admin password: admin
 #   Receptionist password: reception
 ```
-## � Table of Contents
 
-- [Features](#-features)
-- [Architecture & OOD Highlights](#-architecture--ood-highlights)
-- [Project Structure](#-project-structure)
-- [Build & Run](#-build--run)
-- [Usage](#-usage)
-- [Technical Highlights](#️-technical-highlights)
-- [Future Enhancements](#-future-enhancements)
-- [Learning Outcomes](#-learning-outcomes)
-- [Author & Contact](#-author--contact)
-
----
 
 ### What's Included
 - **MySQL 8.0** - Automatically configured database with schema initialization
@@ -52,7 +40,21 @@ docker-compose run --rm --build hotel-app
 # Remove containers and volumes (fresh start)
 docker-compose down -v
 ```
+---
 
+## � Table of Contents
+
+- [Features](#-features)
+- [Architecture & OOD Highlights](#-architecture--ood-highlights)
+- [Project Structure](#-project-structure)
+- [Build & Run](#-build--run)
+- [Usage](#-usage)
+- [Technical Highlights](#️-technical-highlights)
+- [Future Enhancements](#-future-enhancements)
+- [Learning Outcomes](#-learning-outcomes)
+- [Author & Contact](#-author--contact)
+
+---
 ## 🚀 Features
 
 * **Room Management**: Add, delete, update, and view room details with database persistence.
